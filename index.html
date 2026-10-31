@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>flightexamprep.com — FAA Airman Knowledge Training & PPL Ground School</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        skyBlue: '#0EA5E9',
+                        skyBlueDark: '#0284C7',
+                        sunriseGold: '#F59E0B',
+                        sunriseAmber: '#FFB800',
+                        coralOrange: '#FF6B35',
+                        freshTeal: '#14B8A6',
+                        warmCream: '#FFF7ED',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #FFF7ED; color: #1E293B; }
+        .gradient-sky-teal { background: linear-gradient(135deg, #0EA5E9 0%, #14B8A6 100%); }
+        .gradient-gold-coral { background: linear-gradient(135deg, #F59E0B 0%, #FF6B35 100%); }
+        .gradient-sunrise { background: linear-gradient(180deg, #FFF7ED 0%, #E0F2FE 50%, #FEF3C7 100%); }
+        .card-shadow { box-shadow: 0 20px 40px -15px rgba(14, 165, 233, 0.12); }
+        .gold-shadow { box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.35); }
+    </style>
+</head>
+<body id="top" class="bg-warmCream antialiased selection:bg-sunriseGold selection:text-white">
+
+    <!-- Top Notification Bar -->
+    <div class="bg-gradient-to-r from-skyBlue to-freshTeal text-white text-xs sm:text-sm font-medium py-2 px-4 text-center">
+        <span class="bg-white/25 px-2 py-0.5 rounded-full text-xs font-bold mr-2 uppercase tracking-wider">New Cohort</span> 
+        Live Virtual PPL Ground School starts next Monday! <a href="#pricing" class="underline font-bold ml-1 hover:text-warmCream">Reserve your seat ($750) &rarr;</a>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-sky-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#top" class="flex items-center space-x-3 group">
+                <div class="w-11 h-11 rounded-2xl gradient-sky-teal flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-plane-departure text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-2xl font-black tracking-tight text-slate-900">flight<span class="text-skyBlue">exam</span>prep<span class="text-sunriseGold">.com</span></span>
+                    <span class="block text-[10px] font-semibold text-slate-400 uppercase tracking-widest">FAA Airman Knowledge</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <div class="hidden md:flex items-center space-x-8 font-semibold text-slate-600">
+                <a href="#class" class="hover:text-skyBlue transition-colors">Virtual Class</a>
+                <a href="#app" class="hover:text-skyBlue transition-colors">Exam Prep App</a>
+                <a href="#curriculum" class="hover:text-skyBlue transition-colors">Visual Study Guide</a>
+                <a href="#howitworks" class="hover:text-skyBlue transition-colors">How It Works</a>
+                <a href="#pricing" class="hover:text-skyBlue transition-colors">Pricing</a>
+                <a href="#faq" class="hover:text-skyBlue transition-colors">FAQ</a>
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="hidden sm:flex items-center space-x-4">
+                <button onclick="openPracticeModal()" class="text-skyBlueDark font-bold px-4 py-2 rounded-xl hover:bg-sky-50 transition-colors border border-sky-200">
+                    <i class="fa-solid fa-laptop-code mr-1.5 text-sunriseGold"></i> Free Quiz
+                </button>
+                <a href="#pricing" class="gradient-gold-coral text-white font-bold px-5 py-2.5 rounded-xl gold-shadow hover:opacity-95 transition-all transform hover:-translate-y-0.5">
+                    Enroll Now
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button onclick="toggleMobileMenu()" class="md:hidden text-slate-700 p-2 focus:outline-none">
+                <i id="menu-icon" class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-sky-100 px-6 py-6 space-y-4 shadow-xl">
+            <a href="#class" onclick="toggleMobileMenu()" class="block font-semibold text-slate-700 hover:text-skyBlue">Virtual Class ($750)</a>
+            <a href="#app" onclick="toggleMobileMenu()" class="block font-semibold text-slate-700 hover:text-skyBlue">Exam Prep App</a>
+            <a href="#curriculum" onclick="toggleMobileMenu()" class="block font-semibold text-slate-700 hover:text-skyBlue">Visual Study Guide</a>
+            <a href="#howitworks" onclick="toggleMobileMenu()" class="block font-semibold text-slate-700 hover:text-skyBlue">How It Works</a>
+            <a href="#pricing" onclick="toggleMobileMenu()" class="block font-semibold text-slate-700 hover:text-skyBlue">Pricing & Enrollment</a>
+            <a href="#faq" onclick="toggleMobileMenu()" class="block font-semibold text-slate-700 hover:text-skyBlue">FAQ</a>
+            <div class="pt-4 border-t border-slate-100 flex flex-col space-y-3">
+                <button onclick="openPracticeModal(); toggleMobileMenu();" class="w-full text-center text-skyBlueDark font-bold py-3 rounded-xl border border-sky-200 bg-sky-50">
+                    Try Free Practice Exam
+                </button>
+                <a href="#pricing" onclick="toggleMobileMenu()" class="w-full text-center gradient-gold-coral text-white font-bold py-3 rounded-xl gold-shadow">
+                    Enroll in the Class ($750)
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. HERO SECTION -->
+    <header class="relative gradient-sunrise pt-12 pb-20 md:pt-20 md:pb-28 overflow-hidden">
+        <!-- Background decorative floating elements -->
+        <div class="absolute top-10 left-10 w-72 h-72 bg-sky-300/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-amber-300/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Text Content -->
+                <div class="lg:col-span-7 text-center lg:text-left">
+                    <div class="inline-flex items-center space-x-2 bg-white/90 border border-sky-200 px-4 py-2 rounded-full shadow-sm mb-6">
+                        <span class="flex h-2.5 w-2.5 rounded-full bg-freshTeal animate-pulse"></span>
+                        <span class="text-xs sm:text-sm font-bold text-skyBlueDark uppercase tracking-wider">FAA Private Pilot Knowledge Exam (PAR)</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-900 tracking-tight leading-[1.1] mb-6">
+                        Pass Your Private Pilot Written Exam — <span class="text-transparent bg-clip-text gradient-sky-teal">And Actually Understand Flying</span>
+                    </h1>
+
+                    <p class="text-lg sm:text-xl text-slate-600 font-normal leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0">
+                        Stop rote memorizing outdated test banks. Experience elite virtual ground school taught by licensed flight instructors, paired with our intelligent 60-question PAR simulator.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#pricing" class="w-full sm:w-auto gradient-gold-coral text-white font-extrabold text-lg px-8 py-4 rounded-2xl gold-shadow hover:opacity-95 transition-all text-center transform hover:-translate-y-1">
+                            <i class="fa-solid fa-graduation-cap mr-2"></i> Enroll in the Class ($750)
+                        </a>
+                        <button onclick="openPracticeModal()" class="w-full sm:w-auto bg-white hover:bg-sky-50 text-skyBlueDark border-2 border-sky-200 font-extrabold text-lg px-8 py-4 rounded-2xl shadow-sm transition-all text-center flex items-center justify-center">
+                            <i class="fa-solid fa-play-circle mr-2 text-sunriseGold text-xl"></i> Try a Practice Exam
+                        </button>
+                    </div>
+
+                    <!-- Micro Trust Metrics -->
+                    <div class="mt-12 pt-8 border-t border-sky-200/60 grid grid-cols-3 gap-4 text-center lg:text-left">
+                        <div>
+                            <p class="text-2xl sm:text-3xl font-black text-slate-900">100%</p>
+                            <p class="text-xs sm:text-sm font-medium text-slate-500">Live Instruction — Never Pre-Recorded</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl sm:text-3xl font-black text-slate-900">60 Qs</p>
+                            <p class="text-xs sm:text-sm font-medium text-slate-500">Exact FAA PAR Format</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl sm:text-3xl font-black text-slate-900">8 ACS</p>
+                            <p class="text-xs sm:text-sm font-medium text-slate-500">Domains Mastered</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Visual / Trainer Aircraft Card -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <!-- Main Sunrise Flight Image -->
+                        <div class="rounded-3xl overflow-hidden card-shadow border-4 border-white bg-white relative">
+                            <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1000&q=80" alt="Trainer aircraft flying in clear sunrise sky" class="w-full h-80 sm:h-96 object-cover hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
+                                <span class="bg-sunriseGold text-slate-950 font-bold text-xs uppercase px-3 py-1 rounded-full w-max mb-2">Live Cockpit View</span>
+                                <h3 class="text-xl font-bold">Master VFR Cross-Country & Airspace</h3>
+                                <p class="text-xs text-slate-200 mt-1">Clear skies, precision instruments, and expert ground instruction.</p>
+                            </div>
+                        </div>
+
+                        <!-- Floating Interactive Badge -->
+                        <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-sky-100 flex items-center space-x-3 animate-bounce hidden sm:flex" style="animation-duration: 4s;">
+                            <div class="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center text-sunriseGold text-2xl font-bold">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-bold uppercase">FAA Endorsement</p>
+                                <p class="text-sm font-black text-slate-900">Instant Test Sign-Off</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. TRUST BAR — FAA-Based Standards -->
+    <section class="bg-white py-10 border-b border-sky-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Strictly aligned with official FAA documentation & standards</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 items-center justify-center">
+                <div class="bg-sky-50/70 border border-sky-100 p-4 rounded-2xl flex items-center space-x-3 text-center justify-center">
+                    <i class="fa-solid fa-book-open text-skyBlue text-2xl"></i>
+                    <div class="text-left">
+                        <h4 class="font-extrabold text-slate-900 text-sm">PHAK & AFH</h4>
+                        <p class="text-xs text-slate-500">Pilot Handbook & Flying Handbook</p>
+                    </div>
+                </div>
+                <div class="bg-amber-50/70 border border-amber-100 p-4 rounded-2xl flex items-center space-x-3 text-center justify-center">
+                    <i class="fa-solid fa-compass text-sunriseGold text-2xl"></i>
+                    <div class="text-left">
+                        <h4 class="font-extrabold text-slate-900 text-sm">FAA-S-ACS-6B</h4>
+                        <p class="text-xs text-slate-500">Private Pilot Airman Certification</p>
+                    </div>
+                </div>
+                <div class="bg-teal-50/70 border border-teal-100 p-4 rounded-2xl flex items-center space-x-3 text-center justify-center">
+                    <i class="fa-solid fa-scale-balanced text-freshTeal text-2xl"></i>
+                    <div class="text-left">
+                        <h4 class="font-extrabold text-slate-900 text-sm">14 CFR Part 61</h4>
+                        <p class="text-xs text-slate-500">Federal Aviation Regulations</p>
+                    </div>
+                </div>
+                <div class="bg-orange-50/70 border border-orange-100 p-4 rounded-2xl flex items-center space-x-3 text-center justify-center">
+                    <i class="fa-solid fa-chalkboard-user text-coralOrange text-2xl"></i>
+                    <div class="text-left">
+                        <h4 class="font-extrabold text-slate-900 text-sm">CFI Instructors</h4>
+                        <p class="text-xs text-slate-500">Taught by Active Flight Educators</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. THE $750 VIRTUAL CLASS -->
+    <section id="class" class="py-20 md:py-28 bg-warmCream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="bg-sky-100 text-skyBlueDark font-extrabold text-xs uppercase px-4 py-1.5 rounded-full tracking-wider">Elite Ground School</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mt-4 mb-4">
+                    The $750 Live Virtual Class <span class="text-transparent bg-clip-text gradient-gold-coral">With Partner Flight Schools</span>
+                </h2>
+                <p class="text-slate-600 text-lg">
+                    Don't study alone in a vacuum. Join our intensive interactive cohort led by veteran Certified Flight Instructors (CFIs). Ask questions in real-time and master every concept before test day.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Feature Card 1 -->
+                <div class="bg-white p-8 rounded-3xl card-shadow border border-sky-100 relative overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-sky-100 text-skyBlue flex items-center justify-center text-2xl mb-6 font-bold">
+                            <i class="fa-solid fa-video"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-slate-900 mb-3">Live Interactive Sessions</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                            4 weeks of live online evening classes. We break down airspace classes, cross-country flight planning, VFR plotting, and aerodynamics into crystal-clear visual lessons.
+                        </p>
+                    </div>
+                    <ul class="space-y-3 pt-6 border-t border-slate-100 text-sm font-medium text-slate-700">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Recordings available 24/7</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Live Q&A with experienced CFIs</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Group flight planning workshops</li>
+                    </ul>
+                </div>
+
+                <!-- Feature Card 2 -->
+                <div class="bg-white p-8 rounded-3xl card-shadow border border-amber-200 relative overflow-hidden flex flex-col justify-between transform lg:-translate-y-4">
+                    <div class="absolute top-0 right-0 bg-sunriseGold text-slate-950 font-black text-[10px] uppercase px-4 py-1.5 rounded-bl-2xl tracking-widest">Included Free ($750 Value)</div>
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-amber-100 text-sunriseGold flex items-center justify-center text-2xl mb-6 font-bold">
+                            <i class="fa-solid fa-signature"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-slate-900 mb-3">FAA Sign-Off When You're Ready</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                            When you consistently score 80% or higher on the practice module exams, your instructor reviews your work and issues your official FAA knowledge-test endorsement so you can schedule your exam.
+                        </p>
+                    </div>
+                    <ul class="space-y-3 pt-6 border-t border-slate-100 text-sm font-medium text-slate-700">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Readiness checked before you test</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Direct CFI review & sign-off</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Accepted at all PSI testing centers</li>
+                    </ul>
+                </div>
+
+                <!-- Feature Card 3 -->
+                <div class="bg-white p-8 rounded-3xl card-shadow border border-sky-100 relative overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-2xl bg-teal-100 text-freshTeal flex items-center justify-center text-2xl mb-6 font-bold">
+                            <i class="fa-solid fa-users-rectangle"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-slate-900 mb-3">Partner Flight School Network</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                            Backed by accredited flight training academies across the nation. Transition seamlessly from ground school knowledge to your aircraft cockpit with trusted local partners.
+                        </p>
+                    </div>
+                    <ul class="space-y-3 pt-6 border-t border-slate-100 text-sm font-medium text-slate-700">
+                        <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Exclusive aircraft rental perks</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Connect with local student pilots</li>
+                        <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Priority checkride booking support</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Callout Banner -->
+            <div class="mt-12 gradient-sky-teal rounded-3xl p-8 sm:p-10 text-white flex flex-col md:flex-row items-center justify-between shadow-xl">
+                <div class="mb-6 md:mb-0 text-center md:text-left">
+                    <h4 class="text-2xl sm:text-3xl font-black mb-2">Ready to start your flight training journey?</h4>
+                    <p class="text-sky-100 text-sm sm:text-base max-w-xl">Enroll in the complete $750 live virtual class today and unlock lifetime access to the PAR Exam Prep App.</p>
+                </div>
+                <a href="#pricing" class="bg-white text-skyBlueDark font-extrabold px-8 py-4 rounded-2xl shadow-lg hover:bg-warmCream transition-colors text-lg whitespace-nowrap">
+                    Secure Your Seat ($750)
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 4. EXAM PREP APP & INTERACTIVE PRACTICE EXAM WIDGET -->
+    <section id="app" class="py-20 md:py-28 bg-white border-y border-sky-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
+                <div class="lg:col-span-6">
+                    <span class="bg-orange-100 text-coralOrange font-extrabold text-xs uppercase px-4 py-1.5 rounded-full tracking-wider">Standalone Digital App</span>
+                    <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mt-4 mb-6">
+                        The PAR Exam Prep App <span class="text-transparent bg-clip-text gradient-gold-coral">(Sold Separately)</span>
+                    </h2>
+                    <p class="text-slate-600 text-lg leading-relaxed mb-6">
+                        Designed for maximum retention and realistic test simulation. Practice anytime on web, tablet, or mobile.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 rounded-xl bg-sky-100 text-skyBlue flex items-center justify-center font-bold flex-shrink-0 mt-1">1</div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-lg">Timed 60-Question PAR Exams</h4>
+                                <p class="text-slate-600 text-sm">Strict 2-hour timer matching PSI test center conditions. Requires 70% to pass.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 rounded-xl bg-amber-100 text-sunriseGold flex items-center justify-center font-bold flex-shrink-0 mt-1">2</div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-lg">Study-by-Topic Across All 8 ACS Areas</h4>
+                                <p class="text-slate-600 text-sm">Weather, Aerodynamics, Navigation, Regulations, Weight & Balance, and more with crystal-clear explanations.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 rounded-xl bg-teal-100 text-freshTeal flex items-center justify-center font-bold flex-shrink-0 mt-1">3</div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-lg">Progress Dashboard & Weak-Area Review</h4>
+                                <p class="text-slate-600 text-sm">Smart algorithm tracks missed questions and automatically builds custom quizzes for your weak points.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Practice Exam Widget Preview Card -->
+                <div class="lg:col-span-6">
+                    <div class="bg-gradient-to-br from-sky-50 to-amber-50 p-6 sm:p-8 rounded-3xl border-2 border-sky-200 card-shadow">
+                        <div class="flex items-center justify-between mb-6 pb-4 border-b border-sky-200">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-freshTeal"></span>
+                                <span class="text-xs font-bold text-slate-500 uppercase ml-2">PAR Exam Simulator v3.4</span>
+                            </div>
+                            <span class="bg-skyBlue text-white text-xs font-bold px-3 py-1 rounded-full">Interactive Demo</span>
+                        </div>
+
+                        <!-- Sample Question Display -->
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-sky-100 mb-6">
+                            <div class="flex justify-between text-xs font-bold text-slate-400 uppercase mb-2">
+                                <span>Question 14 of 60</span>
+                                <span>ACS Area: Weather (METAR/TAF)</span>
+                            </div>
+                            <h3 class="font-bold text-slate-900 text-base sm:text-lg mb-4">
+                                What is the approximate base of the cumulus clouds if the surface air temperature is 85°F and the dewpoint is 71°F?
+                            </h3>
+                            <div class="space-y-2.5">
+                                <div class="p-3 rounded-xl border border-slate-200 hover:border-skyBlue hover:bg-sky-50 cursor-pointer text-sm font-medium transition-all flex items-center justify-between">
+                                    <span>A) 3,000 feet AGL</span>
+                                    <span class="text-xs font-bold text-slate-400">Option A</span>
+                                </div>
+                                <div class="p-3 rounded-xl border-2 border-skyBlue bg-sky-50 text-skyBlueDark cursor-pointer text-sm font-semibold transition-all flex items-center justify-between">
+                                    <span>B) 4,000 feet AGL</span>
+                                    <span class="text-xs font-bold bg-skyBlue text-white px-2 py-0.5 rounded">Correct!</span>
+                                </div>
+                                <div class="p-3 rounded-xl border border-slate-200 hover:border-skyBlue hover:bg-sky-50 cursor-pointer text-sm font-medium transition-all flex items-center justify-between">
+                                    <span>C) 5,500 feet AGL</span>
+                                    <span class="text-xs font-bold text-slate-400">Option C</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-slate-500 font-medium"><i class="fa-solid fa-lightbulb text-sunriseGold mr-1"></i> Explanation: Spread is 14°F. Divide by 4.4°F per 1,000 ft = ~3,181 ft (approx 4,000 ft).</span>
+                            <button onclick="openPracticeModal()" class="gradient-sky-teal text-white font-bold px-5 py-2.5 rounded-xl shadow hover:opacity-95 transition-all text-sm whitespace-nowrap ml-4">
+                                Launch Full Test &rarr;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 5. VISUAL STUDY GUIDE (8 ACS DOMAINS) -->
+    <section id="curriculum" class="py-20 md:py-28 bg-warmCream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="bg-teal-100 text-freshTeal font-extrabold text-xs uppercase px-4 py-1.5 rounded-full tracking-wider">Visual Learning First</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mt-4 mb-4">
+                    The Complete Visual Study Guide
+                </h2>
+                <p class="text-slate-600 text-lg">
+                    Every lesson starts with rich diagrams, real cockpit photography, and intuitive real-life connections. Master all 8 FAA Airman Certification Standards (ACS) areas effortlessly.
+                </p>
+            </div>
+
+            <!-- Grid of 6 Main Visual Modules with Corrected Imagery -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Card 1: VFR Navigation -->
+                <div class="bg-white rounded-3xl overflow-hidden card-shadow border border-sky-100 group">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=600&q=80" alt="Aviation aeronautical sectional charts and plotter" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-skyBlueDark">Module 1</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-black text-slate-900 mb-2">VFR Navigation & Sectional Charts</h3>
+                        <p class="text-slate-600 text-sm mb-4">Decode airspace boundaries (Classes B, C, D, E, G), restricted areas, VOR navigation, and dead reckoning calculations.</p>
+                        <span class="text-xs font-bold text-sunriseGold uppercase tracking-wider flex items-center">
+                            <i class="fa-solid fa-image mr-1.5"></i> Includes 24 Interactive Sectional Diagrams
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Weather & METAR/TAF -->
+                <div class="bg-white rounded-3xl overflow-hidden card-shadow border border-sky-100 group">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1590055569914-9ff54dc59d18?auto=format&fit=crop&w=600&q=80" alt="Cumulus clouds and weather radar forecasting" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-skyBlueDark">Module 2</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-black text-slate-900 mb-2">Weather, METAR & TAF Reports</h3>
+                        <p class="text-slate-600 text-sm mb-4">Master atmospheric pressure systems, fronts, thunderstorm hazards, density altitude, and raw METAR/TAF code translation.</p>
+                        <span class="text-xs font-bold text-sunriseGold uppercase tracking-wider flex items-center">
+                            <i class="fa-solid fa-cloud-sun mr-1.5"></i> Real-Time Weather Simulator
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Card 3: Aerodynamics & Aircraft Systems -->
+                <div class="bg-white rounded-3xl overflow-hidden card-shadow border border-sky-100 group">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=600&q=80" alt="Trainer aircraft cockpit flight instruments and controls" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-skyBlueDark">Module 3</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-black text-slate-900 mb-2">Aerodynamics & Aircraft Systems</h3>
+                        <p class="text-slate-600 text-sm mb-4">Forces of flight, stall/spin dynamics, stability, powerplant operations, electrical systems, and landing gear mechanics.</p>
+                        <span class="text-xs font-bold text-sunriseGold uppercase tracking-wider flex items-center">
+                            <i class="fa-solid fa-plane mr-1.5"></i> 3D Force Vectors & Schematics
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Card 4: Weight & Balance -->
+                <div class="bg-white rounded-3xl overflow-hidden card-shadow border border-sky-100 group">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=600&q=80" alt="Aircraft weight and balance graph computation" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-skyBlueDark">Module 4</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-black text-slate-900 mb-2">Weight & Balance & Performance</h3>
+                        <p class="text-slate-600 text-sm mb-4">Calculate moment, center of gravity (CG) limits, takeoff/landing distance charts, and crosswind component graphs.</p>
+                        <span class="text-xs font-bold text-sunriseGold uppercase tracking-wider flex items-center">
+                            <i class="fa-solid fa-calculator mr-1.5"></i> Interactive CG Calculators
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Card 5: Federal Aviation Regulations -->
+                <div class="bg-white rounded-3xl overflow-hidden card-shadow border border-sky-100 group">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80" alt="FAA Pilot logbook and aviation regulations manual" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-skyBlueDark">Module 5</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-black text-slate-900 mb-2">Federal Aviation Regulations (CFR)</h3>
+                        <p class="text-slate-600 text-sm mb-4">Private pilot privileges and limitations, currency requirements, medical certificates, required aircraft documents, and equipment.</p>
+                        <span class="text-xs font-bold text-sunriseGold uppercase tracking-wider flex items-center">
+                            <i class="fa-solid fa-gavel mr-1.5"></i> Simplified Regulation Cheat-Sheets
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Card 6: Aeromedical Factors -->
+                <div class="bg-white rounded-3xl overflow-hidden card-shadow border border-sky-100 group">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80" alt="Pilot wearing aviation headset in cockpit" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-skyBlueDark">Module 6</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-black text-slate-900 mb-2">Aeromedical & Decision Making (ADM)</h3>
+                        <p class="text-slate-600 text-sm mb-4">Hypoxia, spatial disorientation, vestibular illusions, hazardous attitudes, risk management, and single-pilot resource management (SRM).</p>
+                        <span class="text-xs font-bold text-sunriseGold uppercase tracking-wider flex items-center">
+                            <i class="fa-solid fa-brain mr-1.5"></i> Human Factors Case Studies
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. HOW IT WORKS (3 STEPS) -->
+    <section id="howitworks" class="py-20 md:py-28 bg-white border-y border-sky-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="bg-sky-100 text-skyBlueDark font-extrabold text-xs uppercase px-4 py-1.5 rounded-full tracking-wider">Simple 3-Step Success Path</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mt-4 mb-4">
+                    How You Get Your FAA Endorsement
+                </h2>
+                <p class="text-slate-600 text-lg">
+                    From zero ground school experience to walking into the PSI testing center fully prepared and endorsed.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                
+                <!-- Step 1 -->
+                <div class="bg-sky-50/60 border border-sky-100 p-8 rounded-3xl relative">
+                    <div class="w-12 h-12 rounded-2xl bg-skyBlue text-white font-black text-xl flex items-center justify-center mb-6 shadow-md">1</div>
+                    <h3 class="text-xl font-black text-slate-900 mb-3">Join the Live Class or App</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Enroll in our $750 live virtual ground school cohort or activate your PAR Exam Prep App. Start studying visual guides and topic practice questions immediately.
+                    </p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-amber-50/60 border border-amber-100 p-8 rounded-3xl relative">
+                    <div class="w-12 h-12 rounded-2xl bg-sunriseGold text-slate-950 font-black text-xl flex items-center justify-center mb-6 shadow-md">2</div>
+                    <h3 class="text-xl font-black text-slate-900 mb-3">Pass Practice Mock Exams</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Take our 60-question timed practice exams until you consistently score 80% or higher. Our smart dashboard flags your weak areas for instant review.
+                    </p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-teal-50/60 border border-teal-100 p-8 rounded-3xl relative">
+                    <div class="w-12 h-12 rounded-2xl bg-freshTeal text-white font-black text-xl flex items-center justify-center mb-6 shadow-md">3</div>
+                    <h3 class="text-xl font-black text-slate-900 mb-3">Get Endorsed & Ace the Exam</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Receive your official FAA Knowledge Test Endorsement instantly from your CFI instructor, book your exam at any PSI center, and pass with flying colors!
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. PRICING & ENROLLMENT FORM SECTION -->
+    <section id="pricing" class="py-20 md:py-28 bg-warmCream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="bg-amber-100 text-sunriseGold font-extrabold text-xs uppercase px-4 py-1.5 rounded-full tracking-wider">Transparent Investment</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mt-4 mb-4">
+                    Choose Your Path to the Cockpit
+                </h2>
+                <p class="text-slate-600 text-lg">
+                    Whether you want live interactive instruction with CFIs or self-paced digital app practice, we have you covered.
+                </p>
+            </div>
+
+            <!-- Pricing Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
+                
+                <!-- Plan 1: Exam Prep App -->
+                <div class="bg-white p-8 sm:p-10 rounded-3xl card-shadow border border-sky-100 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400 bg-slate-100 px-3 py-1 rounded-full">Self-Paced Digital</span>
+                            <span class="text-xs font-semibold text-freshTeal"><i class="fa-solid fa-bolt mr-1"></i> Instant Access</span>
+                        </div>
+                        <h3 class="text-2xl font-black text-slate-900 mb-2">PAR Exam Prep App</h3>
+                        <p class="text-slate-500 text-sm mb-6">Complete question bank, timed mock tests, flashcards, and weak-area analytics.</p>
+                        
+                        <div class="mb-6 flex items-baseline">
+                            <span class="text-4xl sm:text-5xl font-black text-slate-900">$149</span>
+                            <span class="text-slate-500 text-sm font-semibold ml-2">/ one-time lifetime access</span>
+                        </div>
+
+                        <ul class="space-y-3 mb-8 text-sm text-slate-700 font-medium">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> 1,000+ FAA PAR Question Bank</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Timed 60-Question Simulators</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Study-by-Topic across 8 ACS areas</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Smart Weak-Area Review Dashboard</li>
+                            <li class="flex items-center text-slate-400"><i class="fa-solid fa-xmark mr-3"></i> Live Virtual Ground School Classes</li>
+                        </ul>
+                    </div>
+
+                    <a href="/app" class="block text-center bg-sky-50 hover:bg-sky-100 text-skyBlueDark font-extrabold py-4 rounded-2xl transition-colors border border-sky-200">
+                        Get the App ($149)
+                    </a>
+                </div>
+
+                <!-- Plan 2: Complete Virtual Class ($750) - Featured -->
+                <div class="bg-white p-8 sm:p-10 rounded-3xl card-shadow border-2 border-sunriseGold relative flex flex-col justify-between transform lg:-translate-y-2">
+                    <div class="absolute -top-4 right-8 gradient-gold-coral text-slate-950 font-black text-xs uppercase px-4 py-1.5 rounded-full gold-shadow tracking-widest">Most Popular & Recommended</div>
+                    
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-3 py-1 rounded-full">Live CFI Instruction</span>
+                            <span class="text-xs font-semibold text-sunriseGold"><i class="fa-solid fa-star mr-1"></i> Includes App Free</span>
+                        </div>
+                        <h3 class="text-2xl font-black text-slate-900 mb-2">Live Virtual Ground School</h3>
+                        <p class="text-slate-500 text-sm mb-6">Live classes with veteran CFIs, interactive flight planning workshops, and your instructor's FAA endorsement when you're ready.</p>
+                        
+                        <div class="mb-6 flex items-baseline">
+                            <span class="text-4xl sm:text-5xl font-black text-slate-900">$750</span>
+                            <span class="text-slate-500 text-sm font-semibold ml-2">/ complete 4-week cohort</span>
+                        </div>
+
+                        <ul class="space-y-3 mb-8 text-sm text-slate-700 font-medium">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Everything in the App ($149 value) included</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> 4 Weeks of Live Evening Virtual Classes</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Real-time Q&A with Certified Flight Instructors</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Official FAA Knowledge Test Endorsement</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-freshTeal mr-3"></i> Partner Flight School Network Benefits</li>
+                        </ul>
+                    </div>
+
+                    <a href="#enroll-form" onclick="selectPlan('Virtual Ground School — $750')" class="block text-center gradient-gold-coral text-white font-extrabold py-4 rounded-2xl gold-shadow hover:opacity-95 transition-all">
+                        Enroll in the Class ($750)
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Enrollment Lead Form Box -->
+            <div id="enroll-form" class="max-w-3xl mx-auto bg-white p-8 sm:p-12 rounded-3xl card-shadow border border-sky-100">
+                <div class="text-center mb-8">
+                    <span class="text-xs font-bold uppercase tracking-wider text-skyBlue">Secure Registration</span>
+                    <h3 class="text-2xl sm:text-3xl font-black text-slate-900 mt-2">Reserve Your Spot Today</h3>
+                    <p class="text-slate-600 text-sm mt-1">Select your program and complete your details. Our admissions team will reach out to complete your enrollment.</p>
+                </div>
+
+                <iframe name="fak_gform_iframe" style="display:none" title="Enrollment submission"></iframe>
+                <form action="https://docs.google.com/forms/d/e/1FAIpQLSeU_RcX_3B_LJL3D-AYWqWvJaEJtDMDtGW62mwubmagd0Ur8Q/formResponse" method="post" target="fak_gform_iframe" onsubmit="return submitEnrollment()" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-2">Full Name</label>
+                            <input type="text" name="entry.1255250737" required placeholder="Amelia Earhart" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-skyBlue focus:ring-2 focus:ring-sky-100 outline-none font-medium text-slate-800">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-2">Email Address</label>
+                            <input type="email" name="entry.1712062357" required placeholder="amelia@aviation.com" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-skyBlue focus:ring-2 focus:ring-sky-100 outline-none font-medium text-slate-800">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-2">Phone Number</label>
+                            <input type="tel" name="entry.498156819" required placeholder="(555) 019-2834" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-skyBlue focus:ring-2 focus:ring-sky-100 outline-none font-medium text-slate-800">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-2">Selected Program</label>
+                            <select id="form-plan-select" name="entry.1591284290" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-skyBlue focus:ring-2 focus:ring-sky-100 outline-none font-medium text-slate-800 bg-white">
+                                <option value="Virtual Ground School — $750">Virtual Ground School ($750)</option>
+                                <option value="Ground School + Simulator Training — $3,000">Ground School + Simulator Training ($3,000)</option>
+                                <option value="Full Private Pilot License">Full Private Pilot License ($24,000)</option>
+                                <option value="Commercial Pilot License">Commercial Pilot License ($90,000)</option>
+                                <option value="Not sure yet — help me decide">Not sure yet — help me decide</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-2">City / State</label>
+                            <input type="text" name="entry.676949312" required placeholder="Orlando, FL" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-skyBlue focus:ring-2 focus:ring-sky-100 outline-none font-medium text-slate-800">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-600 mb-2">When Do You Want to Start?</label>
+                            <select name="entry.1854477889" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-skyBlue focus:ring-2 focus:ring-sky-100 outline-none font-medium text-slate-800 bg-white">
+                                <option value="As soon as possible">As soon as possible</option>
+                                <option value="Within 1-3 months">Within 1-3 months</option>
+                                <option value="Just researching for now">Just researching for now</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-600 mb-2">Notes (Optional)</label>
+                        <textarea name="entry.1751385635" rows="3" placeholder="Anything we should know?" class="w-full px-4 py-3.5 rounded-xl border border-slate-200 focus:border-skyBlue focus:ring-2 focus:ring-sky-100 outline-none font-medium text-slate-800"></textarea>
+                    </div>
+
+                    <div class="flex items-center space-x-3">
+                        <input type="checkbox" required id="terms" class="w-5 h-5 rounded border-slate-300 text-skyBlue focus:ring-sky-200">
+                        <label for="terms" class="text-xs text-slate-500 font-medium">I agree to receive course updates, student portal login details, and aviation training communications from flightexamprep.com.</label>
+                    </div>
+
+                    <button type="submit" class="w-full gradient-sky-teal text-white font-black text-lg py-4 rounded-2xl shadow-lg hover:opacity-95 transition-all">
+                        Submit Enrollment Request &rarr;
+                    </button>
+                </form>
+
+                <!-- Success State Notification (Hidden by default) -->
+                <div id="enrollment-success" class="hidden mt-6 p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-center">
+                    <div class="w-12 h-12 bg-freshTeal text-white rounded-full flex items-center justify-center mx-auto mb-3 text-xl font-bold">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-900">Enrollment Received Successfully!</h4>
+                    <p class="text-sm text-slate-600 mt-1">Your inquiry is in our system. Our admissions team will contact you to complete enrollment and set up your student access.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 8. FAQ SECTION -->
+    <section id="faq" class="py-20 md:py-28 bg-white border-y border-sky-100">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="bg-sky-100 text-skyBlueDark font-extrabold text-xs uppercase px-4 py-1.5 rounded-full tracking-wider">Got Questions?</span>
+                <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mt-4 mb-4">
+                    Frequently Asked Questions
+                </h2>
+                <p class="text-slate-600 text-lg">
+                    Everything you need to know about the Private Pilot Written Exam (PAR) and our ground school.
+                </p>
+            </div>
+
+            <div class="space-y-4">
+                
+                <!-- FAQ Item 1 -->
+                <div class="border border-sky-100 rounded-2xl overflow-hidden shadow-sm bg-sky-50/30">
+                    <button onclick="toggleFaq(1)" class="w-full p-6 text-left font-extrabold text-slate-900 flex justify-between items-center focus:outline-none">
+                        <span>How do I get my FAA Knowledge Test Endorsement?</span>
+                        <i id="faq-icon-1" class="fa-solid fa-chevron-down text-skyBlue transition-transform"></i>
+                    </button>
+                    <div id="faq-content-1" class="hidden px-6 pb-6 text-slate-600 text-sm leading-relaxed">
+                        Once you complete our $750 live virtual class or score 80% or higher on three consecutive practice exams in the PAR Exam Prep App, our Chief Flight Instructor will instantly issue your official FAA Knowledge Test Endorsement (8710 form / digital sign-off). This endorsement is required by PSI testing centers to take your actual written exam.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="border border-sky-100 rounded-2xl overflow-hidden shadow-sm bg-sky-50/30">
+                    <button onclick="toggleFaq(2)" class="w-full p-6 text-left font-extrabold text-slate-900 flex justify-between items-center focus:outline-none">
+                        <span>What is the passing score and time limit for the PAR exam?</span>
+                        <i id="faq-icon-2" class="fa-solid fa-chevron-down text-skyBlue transition-transform"></i>
+                    </button>
+                    <div id="faq-content-2" class="hidden px-6 pb-6 text-slate-600 text-sm leading-relaxed">
+                        The official FAA Private Pilot Airplane (PAR) knowledge exam consists of 60 multiple-choice questions. You are given 2.0 hours to complete the exam, and the passing score is 70%. Our app and live class simulate this exact format so you finish with time to spare.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="border border-sky-100 rounded-2xl overflow-hidden shadow-sm bg-sky-50/30">
+                    <button onclick="toggleFaq(3)" class="w-full p-6 text-left font-extrabold text-slate-900 flex justify-between items-center focus:outline-none">
+                        <span>Is the $750 Virtual Class held live or is it self-paced?</span>
+                        <i id="faq-icon-3" class="fa-solid fa-chevron-down text-skyBlue transition-transform"></i>
+                    </button>
+                    <div id="faq-content-3" class="hidden px-6 pb-6 text-slate-600 text-sm leading-relaxed">
+                        The $750 program includes live interactive evening sessions with active Certified Flight Instructors where you can ask questions in real-time. If you miss a session, HD video recordings are available in your student portal within 2 hours. You also get lifetime access to the PAR Exam Prep App.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="border border-sky-100 rounded-2xl overflow-hidden shadow-sm bg-sky-50/30">
+                    <button onclick="toggleFaq(4)" class="w-full p-6 text-left font-extrabold text-slate-900 flex justify-between items-center focus:outline-none">
+                        <span>How long is my endorsement valid once issued?</span>
+                        <i id="faq-icon-4" class="fa-solid fa-chevron-down text-skyBlue transition-transform"></i>
+                    </button>
+                    <div id="faq-content-4" class="hidden px-6 pb-6 text-slate-600 text-sm leading-relaxed">
+                        According to FAA regulations (14 CFR § 61.35), an endorsement for a knowledge test is valid for 24 calendar months from the date it is issued. If you do not take your written exam within 2 years, you simply need a quick review with our CFI team to renew your endorsement.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-white pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
+                <div class="md:col-span-1">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-2xl gradient-sky-teal flex items-center justify-center text-white font-bold">
+                            <i class="fa-solid fa-plane-departure"></i>
+                        </div>
+                        <span class="text-2xl font-black tracking-tight text-white">flight<span class="text-skyBlue">exam</span>prep<span class="text-sunriseGold">.com</span></span>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Elite FAA Airman Knowledge Training, virtual PPL ground school, and PAR exam prep for future aviators.
+                    </p>
+                    
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Programs</h4>
+                    <ul class="space-y-2 text-sm text-slate-400 font-medium">
+                        <li><a href="#class" class="hover:text-white transition-colors">Virtual Ground School ($750)</a></li>
+                        <li><a href="#app" class="hover:text-white transition-colors">PAR Exam Prep App ($149)</a></li>
+                        <li><a href="#curriculum" class="hover:text-white transition-colors">Visual Study Guide</a></li>
+                        <li><a href="#pricing" class="hover:text-white transition-colors">FAA Test Endorsement</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">FAA Standards</h4>
+                    <ul class="space-y-2 text-sm text-slate-400 font-medium">
+                        <li><a href="https://www.faa.gov/regulations_policies/handbooks_manuals/aviation" target="_blank" rel="noopener" class="hover:text-white transition-colors">PHAK & AFH Manuals</a></li>
+                        <li><a href="https://www.faa.gov/training_testing/testing/acs" target="_blank" rel="noopener" class="hover:text-white transition-colors">Airman Certification (ACS)</a></li>
+                        <li><a href="https://www.ecfr.gov/current/title-14/chapter-I/subchapter-D/part-61" target="_blank" rel="noopener" class="hover:text-white transition-colors">14 CFR Part 61 Regulations</a></li>
+                        <li><a href="https://aviationweather.gov" target="_blank" rel="noopener" class="hover:text-white transition-colors">METAR / TAF Decoder</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Contact & Support</h4>
+                    <ul class="space-y-2 text-sm text-slate-400 font-medium">
+                        <li><i class="fa-solid fa-envelope mr-2 text-skyBlue"></i> support@flightexamprep.com</li>
+                                                <li><i class="fa-solid fa-location-dot mr-2 text-freshTeal"></i> Partner Flight Schools Nationwide</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
+                <p>&copy; 2026 flightexamprep.com. All rights reserved. Designed for future Private Pilots.</p>
+                
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE PRACTICE EXAM MODAL -->
+    <div id="practice-modal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 card-shadow relative animate-in fade-in zoom-in duration-200">
+            <button onclick="closePracticeModal()" class="absolute top-6 right-6 text-slate-400 hover:text-slate-700 text-xl font-bold">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-10 h-10 rounded-xl gradient-gold-coral text-white flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-stopwatch"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-black text-slate-900">Mini PAR Practice Quiz</h3>
+                    <p class="text-xs text-slate-500 font-semibold">Sample question from our 60-question FAA exam simulator</p>
+                </div>
+            </div>
+
+            <div id="modal-quiz-body">
+                <div class="mb-4">
+                    <span class="text-xs font-bold text-skyBlue bg-sky-50 px-3 py-1 rounded-full uppercase">Airspace & Regulations</span>
+                    <h4 class="text-lg font-bold text-slate-900 mt-3 mb-4">
+                        What minimum flight visibility is required for a VFR flight operating in Class C airspace?
+                    </h4>
+                </div>
+
+                <div class="space-y-3 mb-6" id="quiz-options">
+                    <button onclick="selectAnswer(this, false)" class="w-full text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-skyBlue font-medium text-slate-700 text-sm transition-all">
+                        A) 1 statute mile
+                    </button>
+                    <button onclick="selectAnswer(this, true)" class="w-full text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-skyBlue font-medium text-slate-700 text-sm transition-all">
+                        B) 3 statute miles
+                    </button>
+                    <button onclick="selectAnswer(this, false)" class="w-full text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-skyBlue font-medium text-slate-700 text-sm transition-all">
+                        C) 5 statute miles
+                    </button>
+                </div>
+
+                <div id="quiz-feedback" class="hidden p-4 rounded-2xl mb-6 text-sm font-medium"></div>
+
+                <div class="flex justify-between items-center pt-4 border-t border-slate-100">
+                    <span class="text-xs text-slate-400 font-medium">Question 1 of 60 in full app</span>
+                    <a href="#pricing" onclick="closePracticeModal()" class="gradient-sky-teal text-white font-bold px-6 py-3 rounded-xl shadow hover:opacity-95 text-sm">
+                        Unlock Full 60-Q Exam &rarr;
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Interactions -->
+    <script>
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            menu.classList.toggle('hidden');
+            if(menu.classList.contains('hidden')) {
+                icon.className = "fa-solid fa-bars text-2xl";
+            } else {
+                icon.className = "fa-solid fa-xmark text-2xl";
+            }
+        }
+
+        // FAQ Accordion Toggle
+        function toggleFaq(num) {
+            const content = document.getElementById(`faq-content-${num}`);
+            const icon = document.getElementById(`faq-icon-${num}`);
+            content.classList.toggle('hidden');
+            if(content.classList.contains('hidden')) {
+                icon.className = "fa-solid fa-chevron-down text-skyBlue transition-transform";
+            } else {
+                icon.className = "fa-solid fa-chevron-up text-skyBlue transition-transform";
+            }
+        }
+
+        // Practice Modal Functions
+        function openPracticeModal() {
+            document.getElementById('practice-modal').classList.remove('hidden');
+            document.getElementById('practice-modal').classList.add('flex');
+        }
+
+        function closePracticeModal() {
+            document.getElementById('practice-modal').classList.remove('flex');
+            document.getElementById('practice-modal').classList.add('hidden');
+        }
+
+        // Quiz Answer Selection Handler
+        function selectAnswer(btn, isCorrect) {
+            const options = document.querySelectorAll('#quiz-options button');
+            options.forEach(opt => {
+                opt.classList.remove('border-emerald-500', 'bg-emerald-50', 'border-red-400', 'bg-red-50');
+                opt.disabled = true;
+            });
+
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.classList.remove('hidden');
+
+            if(isCorrect) {
+                btn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-bold');
+                feedback.className = "p-4 rounded-2xl mb-6 text-sm font-medium bg-emerald-50 text-emerald-800 border border-emerald-200";
+                feedback.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600 mr-2"></i> <strong>Correct!</strong> In Class C airspace, VFR visibility requirement is 3 statute miles (3-1510 rule: 3 SM visibility, 500 ft below, 1,000 ft above, 2,000 ft horizontal from clouds).';
+            } else {
+                btn.classList.add('border-red-400', 'bg-red-50', 'text-red-900');
+                feedback.className = "p-4 rounded-2xl mb-6 text-sm font-medium bg-red-50 text-red-800 border border-red-200";
+                feedback.innerHTML = '<i class="fa-solid fa-circle-xmark text-red-500 mr-2"></i> <strong>Incorrect.</strong> The correct answer is B (3 statute miles).';
+            }
+        }
+
+        // Plan Selection Helper
+        function selectPlan(planName) {
+            const select = document.getElementById('form-plan-select');
+            for(let i=0; i<select.options.length; i++) {
+                if(select.options[i].value === planName) {
+                    select.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+
+        // Enrollment Form Handler — posts to the F.A.K. Leads CRM (Google Form)
+        function submitEnrollment() {
+            const form = document.querySelector('#enroll-form form');
+            if (form) { form.style.display = 'none'; }
+            document.getElementById('enrollment-success').classList.remove('hidden');
+            return true;
+        }
+    </script>
+
+</body>
+</html>
