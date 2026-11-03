@@ -26,7 +26,9 @@
     border-radius:20px; box-shadow:0 24px 48px -24px rgba(2,110,170,.28);
     padding:30px 28px 26px;
   }
-  .fak-brand{ display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+  .fak-brand{ display:flex; align-items:center; gap:12px; margin-bottom:8px; color:inherit; text-decoration:none; cursor:pointer; }
+  .fak-home-link{ display:block; margin-top:18px; padding-top:14px; border-top:1px solid rgba(11,48,73,.09); color:#0284C7; font-weight:700; font-size:.92rem; text-decoration:none; }
+  .fak-home-link:hover{ text-decoration:underline; }
   .fak-mark{
     width:42px; height:42px; border-radius:12px; flex:none; display:grid; place-items:center;
     background:linear-gradient(145deg,#0EA5E9,#14B8A6); box-shadow:0 10px 24px -12px rgba(2,110,170,.35);
@@ -160,7 +162,8 @@
         border-bottom:1px solid var(--line);
       }
       .header-in{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 0; flex-wrap:wrap; }
-      .brand{ display:flex; align-items:center; gap:12px; }
+      .brand{ display:flex; align-items:center; gap:12px; color:inherit; text-decoration:none; cursor:pointer; }
+      a.tab{ text-decoration:none; display:inline-flex; align-items:center; }
       .brand-mark{
         width:38px; height:38px; border-radius:11px; flex:none;
         background:linear-gradient(145deg,var(--sky),var(--teal));
@@ -736,7 +739,7 @@
 </div>
 <div id="fak-gate" role="dialog" aria-modal="true" aria-label="Student sign-in">
   <div class="fak-card">
-    <div class="fak-brand">
+    <a class="fak-brand" href="/" aria-label="Home - back to the flightexamprep.com main page">
       <div class="fak-mark" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5 21 4l-4.8 8.2"/><path d="M21 4 13.8 21l-2.2-8.4"/><path d="M11.6 12.6 2.5 12.5"/></svg>
       </div>
@@ -744,7 +747,7 @@
         <div class="fak-name">Future Pilots</div>
         <div class="fak-sub">Exam Prep &middot; PAR</div>
       </div>
-    </div>
+    </a>
 
     <div class="fak-state" id="fak-st-loading">
       <p class="fak-spin">Checking your access&hellip;</p>
@@ -808,13 +811,14 @@
         <p class="fak-note">Creating an account does not open the course by itself. Your account stays pending until your enrollment is confirmed and the account is activated.</p>
       </form>
     </div>
+    <a class="fak-home-link" href="/">&#8962; Home &mdash; back to the main site</a>
   </div>
 </div>
 <noscript><div style="position:fixed;inset:0;background:#FFF7ED;color:#0B3049;font-family:sans-serif;padding:40px 20px;z-index:10000;">This course requires JavaScript and a student sign-in. Please enable JavaScript and reload.</div></noscript>
 
     <header>
       <div class="wrap header-in">
-        <div class="brand">
+        <a class="brand" href="/" aria-label="Home - back to the flightexamprep.com main page">
           <div class="brand-mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12.5 21 4l-4.8 8.2"/><path d="M21 4 13.8 21l-2.2-8.4"/><path d="M11.6 12.6 2.5 12.5"/></svg>
           </div>
@@ -822,13 +826,14 @@
             <div class="brand-name">Future Pilots</div>
             <div class="brand-sub">Exam Prep &middot; PAR</div>
           </div>
-        </div>
+        </a>
         <nav class="tabs" aria-label="Sections">
           <button class="tab active" data-nav="home">Overview</button>
           <button class="tab" data-nav="guide">Study Guide</button>
           <button class="tab" data-nav="exam">Practice Exam</button>
           <button class="tab" data-nav="cards">Flashcards</button>
           <button class="tab" data-nav="progress">Progress</button>
+          <a class="tab" href="/">&#8962; Main Site</a>
         </nav>
       </div>
     </header>
