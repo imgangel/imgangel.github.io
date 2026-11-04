@@ -93,6 +93,8 @@
     color:#fff; background:linear-gradient(135deg,#FF6B35,#F59E0B); cursor:pointer; flex:none;
   }
   @media (max-width:560px){ #fak-user-email{ display:none; } #fak-card{ padding:24px 20px 22px; } }
+  .fak-price{ font-size:2rem; font-weight:800; color:#0B3049; margin:4px 0 14px; }
+  .fak-price span{ font-size:.95rem; font-weight:600; color:#5B7186; }
 </style>
 
     <meta charset="utf-8" />
@@ -740,7 +742,7 @@
   <span id="fak-sync-status"></span>
   <button id="fak-btn-signout" type="button">Sign out</button>
 </div>
-<div id="fak-gate" role="dialog" aria-modal="true" aria-label="Student sign-in">
+<div id="fak-gate" role="dialog" aria-modal="true" aria-label="Student access">
   <div class="fak-card">
     <a class="fak-brand" href="/" aria-label="Home - back to the flightexamprep.com main page">
       <div class="fak-mark" aria-hidden="true">
@@ -777,14 +779,22 @@
     </div>
 
     <div class="fak-state" id="fak-st-auth" hidden>
-      <p class="fak-lede">Student sign-in for FAA Private Pilot (PAR) knowledge test prep &mdash; timed practice exams, the visual study guide, flashcards, and your saved progress.</p>
-      <div class="fak-tabs" role="tablist" aria-label="Sign in or create account">
+      <div id="fak-purchase">
+        <span class="fak-badge">Lifetime Access</span>
+        <h2 class="fak-h">PAR Exam Prep App</h2>
+        <p class="fak-lede">Timed 60-question practice exams on the real 2-hour clock, the visual study guide, flashcards, and your saved progress &mdash; on phone, tablet, or computer.</p>
+        <p class="fak-price">$149 <span>one-time &middot; yours for life</span></p>
+        <button class="fak-btn" type="button" data-buy-plan="app-lifetime-149" onclick="fakShowRegister()">Enroll &amp; Pay &mdash; $149</button>
+        <p class="fak-note">No subscription, no renewals. Create your student account to enroll &mdash; your lifetime access is activated as soon as your payment is confirmed.</p>
+        <button class="fak-link" type="button" onclick="fakShowLogin()">Already have an account? Sign in</button>
+      </div>
+      <div class="fak-tabs" id="fak-authtabs" hidden role="tablist" aria-label="Sign in or create account">
         <button class="fak-tabbtn on" id="fak-tab-login" type="button" role="tab">Sign in</button>
         <button class="fak-tabbtn" id="fak-tab-register" type="button" role="tab">Create account</button>
       </div>
       <p class="fak-msg" id="fak-msg" hidden></p>
 
-      <form id="fak-form-login" novalidate>
+      <form id="fak-form-login" hidden novalidate>
         <div class="fak-field">
           <label for="fak-login-email">Email</label>
           <input id="fak-login-email" type="email" autocomplete="email" required />
@@ -795,6 +805,7 @@
         </div>
         <button class="fak-btn" id="fak-btn-login" type="submit">Sign in</button>
         <button class="fak-link" id="fak-btn-forgot" type="button">Forgot your password?</button>
+        <p class="fak-note">New student? <button class="fak-link" type="button" onclick="fakShowPurchase()">Enroll in the app</button></p>
       </form>
 
       <form id="fak-form-register" hidden novalidate>
@@ -812,11 +823,30 @@
         </div>
         <button class="fak-btn" id="fak-btn-register" type="submit">Create account</button>
         <p class="fak-note">Creating an account does not open the course by itself. Your account stays pending until your enrollment is confirmed and the account is activated.</p>
+        <p class="fak-note">Already have an account? <button class="fak-link" type="button" onclick="fakShowLogin()">Sign in</button></p>
       </form>
     </div>
     <a class="fak-home-link" href="/">&#8962; Home &mdash; back to the main site</a>
   </div>
 </div>
+<script>
+  function fakShowPurchase() {
+    document.getElementById('fak-purchase').hidden = false;
+    document.getElementById('fak-authtabs').hidden = true;
+    document.getElementById('fak-form-login').hidden = true;
+    document.getElementById('fak-form-register').hidden = true;
+  }
+  function fakShowLogin() {
+    document.getElementById('fak-purchase').hidden = true;
+    document.getElementById('fak-authtabs').hidden = false;
+    document.getElementById('fak-tab-login').click();
+  }
+  function fakShowRegister() {
+    document.getElementById('fak-purchase').hidden = true;
+    document.getElementById('fak-authtabs').hidden = false;
+    document.getElementById('fak-tab-register').click();
+  }
+</script>
 <noscript><div style="position:fixed;inset:0;background:#FFF7ED;color:#0B3049;font-family:sans-serif;padding:40px 20px;z-index:10000;">This course requires JavaScript and a student sign-in. Please enable JavaScript and reload.</div></noscript>
 
     <header>
