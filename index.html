@@ -322,7 +322,8 @@
                         <span class="text-slate-400 text-xl font-bold line-through ml-3">$750</span>
                     </div>
                     <p class="text-freshTeal font-extrabold mb-5">You save $250</p>
-                    <a href="#enroll-form" onclick="selectPlan('Virtual Ground School — $750')" data-buy-plan="black-friday-ground-school" class="block text-center gradient-gold-coral text-white font-extrabold py-4 rounded-2xl gold-shadow hover:opacity-95 transition-all">Enroll in Ground School &mdash; $499</a>
+                    <a href="#enroll-form" onclick="selectIntent('Virtual Ground School — $750', 'As soon as possible', '')" data-buy-plan="black-friday-ground-school" class="block text-center gradient-gold-coral text-white font-extrabold py-4 rounded-2xl gold-shadow hover:opacity-95 transition-all">I'm Ready &mdash; Enroll &amp; Pay $499</a>
+<a href="#enroll-form" onclick="selectIntent('Virtual Ground School — $750', 'Just researching for now', '')" class="block text-center bg-white text-skyBlueDark border-2 border-skyBlue font-extrabold py-4 rounded-2xl hover:bg-sky-50 transition-all mt-3">I'm Still Thinking &mdash; Send Me More Info</a>
                     <a href="#enroll-form" onclick="selectPlan('Not sure yet — help me decide')" class="block text-center mt-3 bg-sky-50 hover:bg-sky-100 text-skyBlueDark font-extrabold py-3.5 rounded-2xl transition-colors border border-sky-200">Request Info</a>
                     <p class="text-xs text-slate-500 mt-5">One payment. Enroll online in minutes &mdash; no phone call needed. Reserve your seat today and choose your class start date later. Sale ends December 24, 2026.</p>
                 </div>
@@ -546,7 +547,8 @@
                 <h3 class="text-2xl sm:text-3xl font-black text-slate-900 mb-3">One-Time Payment. Yours Forever.</h3>
                 <p class="text-slate-600 max-w-2xl mx-auto mb-6">Enroll in the PAR Exam Prep App on its own &mdash; no class required. One payment unlocks <strong class="text-slate-900">lifetime access</strong>: every timed practice exam, the full visual study guide, flashcards, and your progress dashboard, on phone, tablet, or computer. No subscription, no renewals.</p>
                 <div class="text-5xl font-black text-slate-900 mb-6">$149 <span class="text-base font-bold text-slate-500">one-time</span></div>
-                <a href="/app" class="gradient-gold-coral text-white font-extrabold px-8 py-4 rounded-2xl shadow gold-shadow hover:opacity-95 transition-all inline-block">Enroll in the App &mdash; $149</a>
+                <a href="/app" class="gradient-gold-coral text-white font-extrabold px-8 py-4 rounded-2xl shadow gold-shadow hover:opacity-95 transition-all inline-block">I'm Ready &mdash; Get Lifetime Access ($149)</a>
+                <a href="#enroll-form" onclick="selectIntent('Not sure yet — help me decide', 'Just researching for now', 'Interested in the PAR Exam Prep App ($149 lifetime access) — please send me more information.')" class="bg-white text-skyBlueDark border-2 border-skyBlue font-extrabold px-8 py-4 rounded-2xl hover:bg-sky-50 transition-all inline-block ml-0 sm:ml-3 mt-3 sm:mt-0">I'm Still Thinking &mdash; Send Me More Info</a>
                 <p class="text-xs text-slate-500 mt-4">Create your free student account to enroll &mdash; your lifetime access is activated as soon as your payment is confirmed.</p>
             </div>
 
@@ -781,9 +783,8 @@
                         </ul>
                     </div>
 
-                    <a href="#enroll-form" onclick="selectPlan('Virtual Ground School — $750')" class="block text-center gradient-gold-coral text-white font-extrabold py-4 rounded-2xl gold-shadow hover:opacity-95 transition-all">
-                        Enroll in Ground School ($499) — Save $250
-                    </a>
+                    <a href="#enroll-form" onclick="selectIntent('Virtual Ground School — $750', 'As soon as possible', '')" class="block text-center gradient-gold-coral text-white font-extrabold py-4 rounded-2xl gold-shadow hover:opacity-95 transition-all">I'm Ready &mdash; Enroll &amp; Pay $499 &mdash; Save $250</a>
+<a href="#enroll-form" onclick="selectIntent('Virtual Ground School — $750', 'Just researching for now', '')" class="block text-center bg-white text-skyBlueDark border-2 border-skyBlue font-extrabold py-4 rounded-2xl hover:bg-sky-50 transition-all mt-3">I'm Still Thinking &mdash; Send Me More Info</a>
                 </div>
 
             </div>
@@ -1101,6 +1102,18 @@
                     select.selectedIndex = i;
                     break;
                 }
+            }
+        }
+
+        function selectIntent(planName, timeline, notesText) {
+            if (planName) { selectPlan(planName); }
+            if (timeline) {
+                const t = document.querySelector('select[name="entry.1854477889"]');
+                if (t) { for (let i = 0; i < t.options.length; i++) { if (t.options[i].value === timeline || t.options[i].text === timeline) { t.selectedIndex = i; break; } } }
+            }
+            if (notesText) {
+                const n = document.querySelector('textarea[name="entry.1751385635"]');
+                if (n) { n.value = notesText; }
             }
         }
 
