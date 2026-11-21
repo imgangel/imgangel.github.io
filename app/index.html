@@ -1022,7 +1022,7 @@
                 <li>Study by topic across all 8 ACS areas, with explanations</li>
                 <li>Visual study guide lessons, flashcards, and weak-area review</li>
               </ul>
-              <button class="btn" id="cta-exam-2" type="button">Try a practice exam</button>
+              <button class="btn" id="cta-exam-2" type="button">Take a practice exam</button>
             </div>
           </div>
         </section>
@@ -1354,7 +1354,7 @@
 
       <footer>
         <div class="rule"></div>
-        <p style="margin:0; max-width:46rem;">Future Pilots Exam Prep — practice material written to the FAA Airman Certification Standards for the Private Pilot (Airplane) knowledge test. Explanations reference the Pilot&rsquo;s Handbook of Aeronautical Knowledge, the Airplane Flying Handbook, the AIM, and 14 CFR. This is a study aid, not an FAA product, and is not affiliated with the FAA. Progress is kept on this device only, in this browser.</p>
+        <p style="margin:0; max-width:46rem;">Future Pilots Exam Prep — practice material written to the FAA Airman Certification Standards for the Private Pilot (Airplane) knowledge test. Explanations reference the Pilot&rsquo;s Handbook of Aeronautical Knowledge, the Airplane Flying Handbook, the AIM, and 14 CFR. This is a study aid, not an FAA product, and is not affiliated with the FAA. Your progress saves to your student account, so it is there for you on any device you sign in on.</p>
       </footer>
     </main>
 
@@ -2063,6 +2063,27 @@
           if (!store.lessons) store.lessons = {};
         }
       } catch (e) { /* storage unavailable — session-only progress */ }
+      function sanitizeStore() {
+        function cleanCounts(obj) {
+          var out = {};
+          if (!obj || typeof obj !== "object") return out;
+          Object.keys(obj).forEach(function (k) {
+            var v = obj[k];
+            if (!v || typeof v !== "object") return;
+            var n = Number(v.n), c = Number(v.c);
+            out[k] = { n: isFinite(n) ? n : 0, c: isFinite(c) ? c : 0, lastWrong: !!v.lastWrong };
+          });
+          return out;
+        }
+        store.seen = cleanCounts(store.seen);
+        store.checks = cleanCounts(store.checks);
+        if (!Array.isArray(store.exams)) store.exams = [];
+        store.exams = store.exams.filter(function (e) { return e && typeof e === "object" && isFinite(Number(e.score)); })
+          .map(function (e) { e.score = Number(e.score); e.correct = Number(e.correct) || 0; return e; });
+        if (!store.cards || typeof store.cards !== "object") store.cards = {};
+        if (!store.lessons || typeof store.lessons !== "object") store.lessons = {};
+      }
+      sanitizeStore();
       function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(store)); } catch (e) {} }
 
       /* ================= HELPERS ================= */
@@ -2092,8 +2113,8 @@
       }
       function totals() {
         var n = 0, c = 0;
-        Object.keys(store.seen).forEach(function (k) { n += store.seen[k].n; c += store.seen[k].c; });
-        Object.keys(store.checks).forEach(function (k) { n += store.checks[k].n; c += store.checks[k].c; });
+        Object.keys(store.seen).forEach(function (k) { n += store.seen[k].n || 0; c += store.seen[k].c || 0; });
+        Object.keys(store.checks).forEach(function (k) { n += store.checks[k].n || 0; c += store.checks[k].c || 0; });
         return { n: n, c: c, seenCount: Object.keys(store.seen).length };
       }
       function topicStats(tid) {
@@ -2102,12 +2123,12 @@
           if (q.t !== tid) return;
           total += 1;
           var s = store.seen[i];
-          if (s) { n += s.n; c += s.c; }
+          if (s) { n += s.n || 0; c += s.c || 0; }
         });
         LESSONS.forEach(function (L) {
           if (L.t !== tid) return;
           var chk = store.checks[L.id];
-          if (chk) { n += chk.n; c += chk.c; }
+          if (chk) { n += chk.n || 0; c += chk.c || 0; }
         });
         return { n: n, c: c, total: total, pct: n ? Math.round(100 * c / n) : null };
       }
@@ -2471,6 +2492,7 @@
         var ml = $("res-missed");
         ml.innerHTML = "";
         $("res-missed-block").style.display = missed.length ? "" : "none";
+        $("res-drill").style.display = missed.length ? "" : "none";
         missed.forEach(function (m) {
           var q = QUESTIONS[m.qi];
           var item = document.createElement("div");
@@ -2644,6 +2666,13 @@
       function renderCourse() {
         var t = courseTotals();
         var has = window.FAK_COURSE === true;
+        if (!has && window.FAK_REFRESH_COURSE) {
+          var nowTs = Date.now();
+          if (!window.__courseRefreshAt || nowTs - window.__courseRefreshAt > 10000) {
+            window.__courseRefreshAt = nowTs;
+            window.FAK_REFRESH_COURSE().then(function (nowHas) { if (nowHas) renderCourse(); });
+          }
+        }
         $("course-pill").textContent = t.pct + "% complete";
         $("course-bar-fill").style.width = t.pct + "%";
         $("course-sub").textContent = t.done + " of " + t.total + " lessons complete \u00B7 about " + t.mins + " minutes of lesson time" + (has ? "" : " \u00B7 preview \u2014 lessons unlock with Ground School enrollment");
@@ -3197,6 +3226,17 @@
     });
   }
 
+  /* Let the app re-check the course flag on demand (the Course view
+     calls this when it opens with access off, so a student whose access
+     was just switched on never has to reload the page to see it). */
+  window.FAK_REFRESH_COURSE = function () {
+    if (!currentUser) return Promise.resolve(window.FAK_COURSE === true);
+    return fetchProfile(currentUser.id, 0).then(function (p) {
+      if (p) window.FAK_COURSE = p.course === true;
+      return window.FAK_COURSE === true;
+    }, function () { return window.FAK_COURSE === true; });
+  };
+
   /* ---------- auth actions ---------- */
   function busy(btn, isBusy) { if (btn) btn.disabled = !!isBusy; }
 
@@ -3355,7 +3395,11 @@
         lock();
         showState("reset");
       } else if (event === "SIGNED_IN") {
-        checkAccess();
+        /* Once the app is unlocked, later session events (a sign-in in
+           another tab, a session broadcast) must not re-run the access
+           check: the check can reload the page and destroy work in
+           progress, such as a practice exam being taken. */
+        if (document.documentElement.classList.contains("fak-locked")) checkAccess();
       }
     });
 
