@@ -779,6 +779,24 @@
       <button class="fak-btn" id="fak-btn-retry" type="button">Try again</button>
     </div>
 
+    <div class="fak-state" id="fak-st-reset" hidden>
+      <span class="fak-badge">Password reset</span>
+      <h2 class="fak-h">Choose a new password</h2>
+      <p class="fak-lede">You followed a password-reset link. Set a new password for your student account below, and you will go straight into the app.</p>
+      <form id="fak-form-reset" novalidate>
+        <div class="fak-field">
+          <label for="fak-reset-password">New password</label>
+          <input id="fak-reset-password" type="password" autocomplete="new-password" required />
+        </div>
+        <div class="fak-field">
+          <label for="fak-reset-password2">Confirm new password</label>
+          <input id="fak-reset-password2" type="password" autocomplete="new-password" required />
+        </div>
+        <p class="fak-msg" id="fak-reset-msg" hidden></p>
+        <button class="fak-btn" id="fak-btn-reset" type="submit">Set new password</button>
+      </form>
+    </div>
+
     <div class="fak-state" id="fak-st-pending" hidden>
       <span class="fak-badge">Pending activation</span>
       <h2 class="fak-h">Your account is pending activation</h2>
@@ -2882,6 +2900,7 @@
 
   var LS_KEY = "futurePilotsPrep.v1";
   window.FAK_COURSE = false;
+  var recoveryMode = false;
   var META_KEY = LS_KEY + ".syncMeta";
   var RELOAD_KEY = "fakGate.reloadedFor";
 
@@ -2901,7 +2920,7 @@
 
   function $(id) { return document.getElementById(id); }
   function showState(name) {
-    ["loading", "config", "error", "pending", "auth"].forEach(function (s) {
+    ["loading", "config", "error", "pending", "auth", "reset"].forEach(function (s) {
       var el = $("fak-st-" + s);
       if (el) el.hidden = (s !== name);
     });
@@ -3130,6 +3149,12 @@
         return;
       }
       currentUser = session.user;
+      if (recoveryMode) {
+        checking = false;
+        lock();
+        showState("reset");
+        return;
+      }
       return fetchProfile(currentUser.id, 0).then(function (profile) {
         checking = false;
         if (!profile || profile.active !== true) {
@@ -3230,6 +3255,38 @@
     }, function () { setMsg("Could not send the reset email. Please try again."); });
   }
 
+  function setResetMsg(text, kind) {
+    var m = $("fak-reset-msg");
+    if (!m) return;
+    if (!text) { m.hidden = true; m.textContent = ""; return; }
+    m.hidden = false;
+    m.textContent = text;
+    m.className = "fak-msg " + (kind === "ok" ? "ok" : "err");
+  }
+
+  function onResetSubmit(ev) {
+    if (ev && ev.preventDefault) ev.preventDefault();
+    setResetMsg("");
+    var pw = $("fak-reset-password").value;
+    var pw2 = $("fak-reset-password2").value;
+    if (!pw || pw.length < 6) { setResetMsg("Use a password of at least 6 characters."); return; }
+    if (pw !== pw2) { setResetMsg("The two passwords do not match."); return; }
+    var btn = $("fak-btn-reset"); busy(btn, true);
+    client.auth.updateUser({ password: pw }).then(function (res) {
+      busy(btn, false);
+      if (res.error) {
+        setResetMsg(res.error.message || "Could not set the new password. The reset link may have expired \u2014 go back to the sign-in screen and request a fresh one.");
+        return;
+      }
+      recoveryMode = false;
+      try { window.history.replaceState(null, "", window.location.pathname); } catch (e) {}
+      checkAccess();
+    }, function () {
+      busy(btn, false);
+      setResetMsg("Could not set the new password. Please try again.");
+    });
+  }
+
   function onSignOut() {
     syncReady = false;
     if (pushTimer) clearTimeout(pushTimer);
@@ -3262,6 +3319,7 @@
       showState("error");
       return;
     }
+    if (/(#|&)type=recovery(&|$)/.test(window.location.hash || "")) recoveryMode = true;
     try {
       client = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
     } catch (e) {
@@ -3271,6 +3329,7 @@
 
     $("fak-form-login").addEventListener("submit", onLogin);
     $("fak-form-register").addEventListener("submit", onRegister);
+    $("fak-form-reset").addEventListener("submit", onResetSubmit);
     $("fak-btn-forgot").addEventListener("click", onForgot);
     $("fak-tab-login").addEventListener("click", function () { selectTab("login"); });
     $("fak-tab-register").addEventListener("click", function () { selectTab("register"); });
@@ -3291,6 +3350,10 @@
       if (event === "SIGNED_OUT") {
         currentUser = null; syncReady = false;
         lock(); showState("auth");
+      } else if (event === "PASSWORD_RECOVERY") {
+        recoveryMode = true;
+        lock();
+        showState("reset");
       } else if (event === "SIGNED_IN") {
         checkAccess();
       }
